@@ -4,6 +4,20 @@ All notable changes. Versions follow [semantic versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.0]
+
+### Added
+- First results on the real data (Feedzai BAF `Base.csv`, months 6–7 as the test): the model catches
+  54% of fraud at a 5% false-positive rate (ROC AUC 0.891); Threshold adds about £2.1k profit per
+  1,000 applications over the best single cut-off; summary tables in `artifacts/`, figures, results
+  page and model card in `reports/`.
+
+### Changed
+- Docs no longer assume data sources overlap: on the real data the three vendors complement each
+  other, so together they are worth more than their separate values added up.
+- Chart labels: sensitivity bars are labelled at each end; capacity tile reads "at capacity" when
+  demand is within 2% of the team's slots.
+
 ## [0.1.0]
 
 ### Added

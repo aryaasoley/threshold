@@ -15,7 +15,10 @@ prices every choice in pounds, and plans the review team around it.
 ## Results on two unseen months
 
 <!-- results:start -->
-_Filled in by `make report` from the real data. Every number comes with a 95% bootstrap range._
+- **3.7% (2.8% to 5.6%)** more genuine applicants onboarded at the same fraud loss as the best single cut-off (72.3% (66.3% to 77.2%) fewer turned away)
+- **£2.1k (£1.9k to £2.4k)** extra profit per 1,000 applications vs the best single cut-off
+- Device data worth **£0.63** per application (£0.50 to £0.78) → the most to pay that vendor per check
+- Recommended review team: **23 analysts**. Analyst 24 would add £150 a day against a £210 daily cost, so hiring stops there
 <!-- results:end -->
 
 [One-page memo](reports/memo.md) · [How it works](docs/methodology.md) ·

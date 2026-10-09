@@ -60,11 +60,17 @@ c3.metric(
     help=f"95% bootstrap range {money(r['low'])} to {money(r['high'])}",
 )
 wanted, cap = comp.reviews_wanted / days, comp.review_capacity / days
+if wanted > cap * 1.02:
+    queue = "queue overflows"
+elif wanted >= cap * 0.98:
+    queue = "at capacity"
+else:
+    queue = "spare capacity"
 c4.metric(
     "Reviews needed vs capacity, per day",
     f"{wanted:,.0f} / {cap:,.0f}",
-    "queue overflows" if wanted > cap * 1.001 else "within capacity",
-    delta_color="inverse" if wanted > cap * 1.001 else "off",
+    queue,
+    delta_color="inverse" if queue == "queue overflows" else "off",
 )
 u = ranges.loc["uplift_per_1k"]
 means(

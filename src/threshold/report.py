@@ -166,7 +166,9 @@ def fig_value_lines(art: Artifacts, out: Path) -> Path:
     _money_axis(ax)
     ax.set_xlabel("Applicant's probability of being a fraudster (p)")
     ax.set_ylabel("Expected value per applicant")
-    ax.set_title("Each action's value is a straight line; the highest line wins", pad=38)
+    ax.set_title(
+        "Each action's value is a straight line; the highest wins, within review capacity", pad=38
+    )
     fig.tight_layout()
     path = out / "value_lines.png"
     fig.savefig(path, dpi=160)
@@ -192,8 +194,14 @@ def fig_tradeoff(art: Artifacts, out: Path) -> Path:
         row = comp.loc[key]
         x, y = row["genuine_onboarded_share"], row["fraud_loss"] / apps * 1000
         ax.scatter([x], [y], s=60, color=color, edgecolor=SURFACE, linewidth=2, zorder=5)
+        above = key == "best_cutoff"
         ax.annotate(
-            label, (x, y), xytext=(-8, 10), textcoords="offset points", fontsize=9, ha="right"
+            label,
+            (x, y),
+            xytext=(-8, 10) if above else (8, -16),
+            textcoords="offset points",
+            fontsize=9,
+            ha="right" if above else "left",
         )
     lo = min(comp.loc["paper_cutoff", "genuine_onboarded_share"], 0.9) - 0.02
     ax.set_xlim(lo, 1.0)
@@ -222,12 +230,13 @@ def fig_team(art: Artifacts, out: Path) -> Path:
     colors = [ACCENT if w else MUTED for w in curve["worth_hiring"]]
     ax.bar(curve["analysts"], curve["marginal_value_per_day"], color=colors, width=0.7)
     ax.axhline(cost, color=INK_2, lw=1)
-    ax.annotate(
-        f"Analyst's daily cost {money(cost)}",
-        (curve["analysts"].max(), cost),
-        xytext=(0, 5),
-        textcoords="offset points",
+    ax.text(
+        0.99,
+        0.97,
+        f"Line: an analyst's daily cost, {money(cost)}",
+        transform=ax.transAxes,
         ha="right",
+        va="top",
         fontsize=9,
         color=INK_2,
     )
@@ -293,24 +302,30 @@ def fig_tornado(art: Artifacts, out: Path) -> Path:
     ax.axvline(base, color=INK_2, lw=1)
     ax.axvline(0, color="#d03b3b", lw=1)
     for yi, (_, row) in zip(y, t.iterrows(), strict=True):
-        ax.annotate(
-            f"{row['low_value']:g} → {row['high_value']:g}",
-            (max(row["metric_at_low"], row["metric_at_high"]), yi),
-            xytext=(5, 0),
-            textcoords="offset points",
-            va="center",
-            fontsize=8,
-            color=INK_2,
+        ends = sorted(
+            [(row["metric_at_low"], row["low_value"]), (row["metric_at_high"], row["high_value"])]
         )
+        for (x, value), side in zip(ends, (-1, 1), strict=True):
+            ax.annotate(
+                f"{value:g}",
+                (x, yi),
+                xytext=(5 * side, 0),
+                textcoords="offset points",
+                ha="right" if side < 0 else "left",
+                va="center",
+                fontsize=8,
+                color=INK_2,
+            )
     ax.set_yticks(y, [LABELS[n] for n in t["assumption"]])
     ax.grid(axis="y", visible=False)
     _money_axis(ax, "x")
     ax.set_xlabel("Extra profit vs best single cut-off, per 1,000 applications")
+    ax.set_xlim(min(0, float(lo.min())) - 0.12 * float(hi.max()), float(hi.max()) * 1.12)
     ax.set_title("Which assumption moves the answer most", pad=20)
     ax.text(
         0,
         1.01,
-        "Grey line: default assumptions. Red line: no advantage over a single cut-off.",
+        "Each end is labelled with the value that produced it. Grey: defaults. Red: no advantage.",
         transform=ax.transAxes,
         fontsize=9,
         color=INK_2,

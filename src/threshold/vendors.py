@@ -2,9 +2,9 @@
 
 Retrain the model without one supplier's features, recalibrate, re-fit the policy and
 score it on the test months. The drop in profit per application is that source's value:
-the break-even price per check, and your ceiling in a negotiation. Sources overlap in what
-they reveal, so the values do not add up; dropping all external vendors at once shows by
-how much.
+the break-even price per check, and your ceiling in a negotiation. Values do not add up:
+overlapping sources are worth less together than separately, complementary ones more.
+Dropping all external vendors at once shows which way it goes.
 """
 
 from __future__ import annotations

@@ -102,8 +102,8 @@ if len(external):
     )
 st.caption(
     "Method: the model is retrained without each supplier's features, recalibrated on month 5, the "
-    "policy is re-fitted, and profit on months 6–7 is compared with the full model. Sources overlap in "
-    "what they reveal, so individual values do not add up to the value of all of them together."
+    "policy is re-fitted, and profit on months 6–7 is compared with the full model. Values do not "
+    "add up: sources that overlap are worth less together, sources that complement each other more."
 )
 with st.expander("Which features come from which source"):
     from threshold.model import FEATURE_GROUPS, GROUP_LABELS

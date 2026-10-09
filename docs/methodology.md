@@ -140,8 +140,10 @@ checks, device data, a credit bureau, and email and phone checks. For each group
 
 That value is the break-even price per check: pay more and you lose money. The 95% range comes
 from a **paired bootstrap**: resample the same test applicants for both models, so noise common
-to both cancels. Sources overlap in what they reveal, so the individual values do not add up;
-the pipeline also drops all three external vendors together to show by how much.
+to both cancels. Values don't add up: sources that reveal the same thing are worth less together
+than the sum of their parts, and sources that complement each other are worth more. The pipeline
+also drops all three external vendors at once to show which way it goes. On the real data they
+complement each other: together they are worth more than their separate values added up.
 
 ## 6. Fairness  `[fairness.py]`
 

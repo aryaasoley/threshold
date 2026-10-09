@@ -1,0 +1,25 @@
+# environment
+.venv
+.venv.nosync/
+__pycache__/
+*.pyc
+
+# data never leaves the machine: only small summary tables in artifacts/ are committed
+data
+data.nosync/
+*.duckdb
+*.csv
+*.zip
+
+# results from synthetic data are for testing only
+artifacts_fake/
+
+# tool caches
+.pytest_cache/
+.ruff_cache/
+.hypothesis/
+.ipynb_checkpoints/
+
+# local editor / assistant settings
+.streamlit/secrets.toml
+.DS_Store

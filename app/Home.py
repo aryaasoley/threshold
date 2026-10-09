@@ -219,7 +219,7 @@ table = pd.DataFrame(
         "Decline": show["decline_rate"].map(pct),
     }
 )
-st.dataframe(table, use_container_width=True)
+st.dataframe(table, width="stretch")
 means(
     "Every policy's cut-offs were fixed on month 5; nothing here was tuned on the months it is "
     "scored on."
@@ -239,5 +239,5 @@ st.sidebar.download_button(
     json.dumps(policy_doc, indent=2),
     file_name="threshold_policy.json",
     mime="application/json",
-    use_container_width=True,
+    width="stretch",
 )

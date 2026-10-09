@@ -1425,7 +1425,7 @@ requires-dist = [
     { name = "pyarrow", specifier = ">=16" },
     { name = "pyyaml", specifier = ">=6.0" },
     { name = "scikit-learn", specifier = ">=1.5" },
-    { name = "streamlit", specifier = ">=1.39" },
+    { name = "streamlit", specifier = ">=1.50" },
 ]
 
 [package.metadata.requires-dev]

@@ -150,7 +150,7 @@ def assumptions_sidebar() -> Assumptions:
     with sb.expander("Team arithmetic", expanded=False):
         for name, bounds in MORE.items():
             values[name] = _slider(st, name, bounds, getattr(defaults, name))
-    if sb.button("Reset to defaults", use_container_width=True):
+    if sb.button("Reset to defaults", width="stretch"):
         for key in list(st.session_state):
             if key.startswith(("v_", "w_")):
                 del st.session_state[key]
@@ -207,7 +207,7 @@ def money_ticks(fig: go.Figure, lo: float, hi: float, axis: str = "y", n: int = 
 
 
 def plot(fig: go.Figure) -> None:
-    st.plotly_chart(fig, use_container_width=True, theme=None, config={"displayModeBar": False})
+    st.plotly_chart(fig, width="stretch", theme=None, config={"displayModeBar": False})
 
 
 __all__ = ["ACCENT", "MUTED", "Data", "assumptions_sidebar", "means", "page_setup", "plot", "style"]

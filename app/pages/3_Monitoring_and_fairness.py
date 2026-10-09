@@ -46,7 +46,7 @@ table = pd.DataFrame(
         ],
     }
 )
-st.dataframe(table, hide_index=True, use_container_width=True)
+st.dataframe(table, hide_index=True, width="stretch")
 means(
     "● Stable, ▲ Watch, ■ Act. PSI under 0.10 is stable, 0.10–0.25 watch, over 0.25 act. PSI needs "
     "no fraud labels, which arrive weeks late in practice, so it is the early warning."
@@ -159,7 +159,7 @@ with st.expander("Every rate, every policy"):
             ratio=fair["ratio"].map(lambda x: f"{x:.2f}×"),
         )[["policy_label", "metric_label", "under_50", "over_50", "ratio", "flag"]],
         hide_index=True,
-        use_container_width=True,
+        width="stretch",
     )
 st.caption(
     "Age is a protected characteristic under the Equality Act 2010, so the policy does not use "
@@ -182,7 +182,7 @@ st.dataframe(
         ["month", "segment", "applications", "Approve", "Verify", "Review", "Decline", "Fraud rate"]
     ],
     hide_index=True,
-    use_container_width=True,
+    width="stretch",
 )
 means(
     "Built by sql/04_segments.sql from the scored decisions; this is the table a Power BI page would sit on."

@@ -142,7 +142,7 @@ with st.expander("The table behind the charts"):
             }
         ),
         hide_index=True,
-        use_container_width=True,
+        width="stretch",
     )
 st.caption(
     "Method: for each team size the policy is re-fitted on month 5 with that many review slots and "

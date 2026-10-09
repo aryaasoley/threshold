@@ -1,5 +1,5 @@
 **To:** Head of Onboarding
-**From:** Arya Soley, Strategy & Operations
+**From:** Arya Soleymani Salem
 **Date:** 9 October 2026
 **Subject:** Replace the single fraud cut-off with a four-action onboarding policy
 

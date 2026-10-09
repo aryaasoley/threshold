@@ -1,0 +1,141 @@
+# Every £ and % the policy uses, in one place.
+#
+# Each entry has:
+#   value    the default used in the pipeline, memo and app
+#   low/high a plausible range, used by the sensitivity (tornado) chart
+#   source   where the number comes from, or "Assumption" with the reasoning
+#   checked  the date the source was last checked (null for pure assumptions)
+#
+# Symbols match docs/methodology.md: V, L, c, s, r, f, a_g, a_f.
+
+economics:
+  good_customer_value:          # V
+    value: 50
+    low: 25
+    high: 100
+    unit: "£ per genuine customer onboarded"
+    source: >-
+      Revolut Group Holdings Annual Report 2025: profit before tax £1.7bn across 68.3m retail
+      customers ≈ £25 per customer per year. Times ~2 years of expected active tenure ≈ £50.
+      A public anchor for a digital bank, not this bank's figure.
+    checked: "2026-10-08"
+
+  loss_per_fraud:               # L
+    value: 1000
+    low: 500
+    high: 2000
+    unit: "£ per fraudulent account opened"
+    source: >-
+      PSR APP-scam reimbursement (in force from 7 Oct 2024): the receiving PSP pays 50% of each
+      reimbursed claim, capped at £85,000 per claim. Assumption: ~£1,700 of scam money lands in a
+      mule account before it is caught → £850 refund share, plus ~£150 investigation and closure
+      cost ≈ £1,000. The rules are under review in 2026–27.
+    checked: "2026-10-08"
+
+verification:                   # the "verify" action: document + liveness check
+  cost_per_check:               # s
+    value: 1.5
+    low: 0.5
+    high: 3.0
+    unit: "£ per verification"
+    source: "Assumption: typical list-price range for a document-and-selfie identity check."
+    checked: null
+
+  good_dropoff:                 # a_g
+    value: 0.15
+    low: 0.05
+    high: 0.30
+    unit: "share of genuine applicants who abandon when asked to verify"
+    source: "Assumption: one extra onboarding step. Measure it with the A/B test in docs/experiment_plan.md."
+    checked: null
+
+  fraud_dropoff:                # a_f
+    value: 0.70
+    low: 0.40
+    high: 0.90
+    unit: "share of fraudsters who abandon or fail when asked to verify"
+    source: "Assumption: stolen or synthetic identities struggle with a liveness check."
+    checked: null
+
+review:                         # the "review" action: a human analyst looks at the case
+  fraud_catch_rate:             # r
+    value: 0.80
+    low: 0.60
+    high: 0.95
+    unit: "share of fraudsters a reviewer stops"
+    source: "Assumption. No public data; measure from QA sampling of review outcomes."
+    checked: null
+
+  good_reject_rate:             # f
+    value: 0.05
+    low: 0.01
+    high: 0.15
+    unit: "share of genuine applicants a reviewer wrongly rejects (or who leave while waiting)"
+    source: "Assumption."
+    checked: null
+
+  analyst_hourly_cost:
+    value: 28
+    low: 20
+    high: 40
+    unit: "£ per hour, fully loaded"
+    source: >-
+      Assumption: a UK financial-crime analyst salary of roughly £32–38k plus ~30% on-costs,
+      over ~1,650 working hours a year.
+    checked: null
+
+  minutes_per_case:
+    value: 12
+    low: 6
+    high: 25
+    unit: "analyst minutes per review"
+    source: "Assumption."
+    checked: null
+
+  productive_share:
+    value: 0.80
+    low: 0.65
+    high: 0.90
+    unit: "share of paid hours spent on cases"
+    source: "Assumption: breaks, training, team meetings."
+    checked: null
+
+  hours_per_day:
+    value: 7.5
+    unit: "paid hours per analyst per day"
+    source: "Standard UK office day."
+    checked: null
+
+  tooling_cost_per_case:
+    value: 1.0
+    low: 0.0
+    high: 3.0
+    unit: "£ per review (data pulls, case-management licence)"
+    source: "Assumption."
+    checked: null
+
+  team_size:
+    value: 6
+    unit: "analysts on the onboarding review queue today"
+    source: "Assumption: the starting point the operations page re-plans from."
+    checked: null
+
+  working_days_per_month:
+    value: 21
+    unit: "days"
+    source: "Calendar average."
+    checked: null
+
+fairness:
+  older_group_min_age: 50        # the dataset paper compares applicants aged 50+ with under-50s
+  warn_ratio: 1.25               # flag to Compliance when one group is checked this much more often
+
+monitoring:
+  psi_watch: 0.10                # population stability index: < 0.10 stable
+  psi_act: 0.25                  # 0.10–0.25 watch, > 0.25 act
+  calibration_watch: 0.20        # |actual / expected fraud − 1| above this → amber
+  calibration_act: 0.40          # … above this → red
+
+uncertainty:
+  bootstrap_reps: 300
+  seed: 7
